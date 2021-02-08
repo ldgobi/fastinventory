@@ -12,6 +12,7 @@ import org.springframework.data.annotation.Id;
 public class InventoryItem {
 	@Id
 	private String id;
+	private String itemNumber;
 
 	private int totalQuantity;
 	private int bookedQuantity;
@@ -19,7 +20,7 @@ public class InventoryItem {
 
 	@Override
 	public String toString() {
-		return "InventoryItem [id=" + id + ", totalQuantity=" + totalQuantity + ", bookedQuantity=" + bookedQuantity
+		return "InventoryItem [id=" + id + ", itemNumber=" + getItemNumber() + ", totalQuantity=" + totalQuantity + ", bookedQuantity=" + bookedQuantity
 				+ ", location=" + location + "]";
 	}
 
@@ -77,5 +78,19 @@ public class InventoryItem {
 	 */
 	public void setLocation(String location) {
 		this.location = location;
+	}
+
+	/**
+	 * @return the itemNumber
+	 */
+	public String getItemNumber() {
+		return itemNumber;
+	}
+
+	/**
+	 * @param itemNumber the itemNumber to set
+	 */
+	public void setItemNumber(String itemNumber) {
+		this.itemNumber = itemNumber;
 	}
 }

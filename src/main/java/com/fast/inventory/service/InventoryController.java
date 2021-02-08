@@ -4,6 +4,7 @@
 package com.fast.inventory.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -53,21 +54,26 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public InventoryItem update(@RequestParam(value = "id") String id,
+	public Collection<InventoryItem> update(@RequestParam(value = "item") String id,
 			@RequestParam(value = "location") String location, @RequestParam(value = "total") Integer total,
 			@RequestParam(value = "booked", defaultValue = "0") Integer booked) {
 
-		InventoryItem item = repository.findOne(id);
-		logger.debug("found:" + item);
+		Collection<InventoryItem> items = repository.findByItemNumber(id);
+		logger.debug("found:" + items);
 
-		if (item == null)
-			item = new InventoryItem();
+		if (items == null)
+		{
+			items = new ArrayList<>(1);
+			items.add(new InventoryItem());
+		}
 
-		item.setTotalQuantity(total);
-		item.setBookedQuantity(booked);
-		item.setLocation(location);
+		for (InventoryItem item : items) {
+			item.setTotalQuantity(total);
+			item.setBookedQuantity(booked);
+			item.setLocation(location);
+		}
 
-		return repository.save(item);
+		return repository.save(items);
 	}
 
 	@ExceptionHandler(HttpClientErrorException.class)

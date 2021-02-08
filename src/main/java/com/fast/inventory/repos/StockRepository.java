@@ -19,5 +19,5 @@ import com.fast.inventory.domain.InventoryItem;
  */
 public interface StockRepository extends MongoRepository<InventoryItem, String> {
 
-	Collection<InventoryItem> findById(String itemId);
+	Collection<InventoryItem> findByItemNumber(String item);
 }
