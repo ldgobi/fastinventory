@@ -31,14 +31,14 @@ public class InventoryController {
 	@Autowired
 	private StockRepository repository;
 
-	@Autowired
+//	@Autowired
 	private Logger logger = Logger.getLogger(getClass());
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
 	public Collection<InventoryItem> findAll() {
 
 		List<InventoryItem> items = repository.findAll();
-		logger.debug("get items:" + items);
+		logger.info("get items:" + items);
 
 		return items;
 	}
@@ -47,7 +47,7 @@ public class InventoryController {
 	public InventoryItem delete(@RequestParam(value = "id") String id) {
 
 		InventoryItem item = repository.findOne(id);
-		logger.debug("deleted:" + item);
+		logger.info("deleted:" + item);
 
 		repository.delete(item);
 		return item;
@@ -59,7 +59,7 @@ public class InventoryController {
 			@RequestParam(value = "booked", defaultValue = "0") Integer booked) {
 
 		Collection<InventoryItem> items = repository.findByItemNumber(id);
-		logger.debug("found:" + items);
+		logger.info("found:" + items);
 
 		if (items.isEmpty())
 			items.add(new InventoryItem());		
