@@ -31,7 +31,7 @@ public class InventoryController {
 	@Autowired
 	private StockRepository repository;
 
-	// @Autowired
+	@Autowired
 	private Logger logger = Logger.getLogger(getClass());
 
 	@RequestMapping(value = "/all", method = RequestMethod.GET)
@@ -61,11 +61,8 @@ public class InventoryController {
 		Collection<InventoryItem> items = repository.findByItemNumber(id);
 		logger.debug("found:" + items);
 
-		if (items == null)
-		{
-			items = new ArrayList<>(1);
-			items.add(new InventoryItem());
-		}
+		if (items.isEmpty())
+			items.add(new InventoryItem());		
 
 		for (InventoryItem item : items) {
 			item.setTotalQuantity(total);
