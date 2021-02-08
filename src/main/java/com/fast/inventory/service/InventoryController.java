@@ -65,6 +65,7 @@ public class InventoryController {
 			items.add(new InventoryItem());		
 
 		for (InventoryItem item : items) {
+			item.setItemNumber(id);
 			item.setTotalQuantity(total);
 			item.setBookedQuantity(booked);
 			item.setLocation(location);
