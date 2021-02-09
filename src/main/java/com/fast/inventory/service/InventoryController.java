@@ -87,9 +87,20 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public InventoryItem update(InventoryItem item) {
-		logger.info("update.post:" + item);
-		return repository.save(item);
+	public Collection<InventoryItem> update(InventoryItem item) {
+		Collection<InventoryItem> found = repository.findByItemNumber(item.getItemNumber());
+		logger.info("update.post:" + found);
+
+		if (!found.isEmpty()) {
+			for (InventoryItem inventoryItem : found) {
+				inventoryItem.setBookedQuantity(item.getBookedQuantity());
+				inventoryItem.setTotalQuantity(item.getTotalQuantity());
+				inventoryItem.setLocation(item.getLocation());
+			}
+		} else
+			found.add(item);
+
+		return repository.save(found);
 	}
 
 	@ExceptionHandler(HttpClientErrorException.class)
