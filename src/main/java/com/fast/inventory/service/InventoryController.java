@@ -38,7 +38,16 @@ public class InventoryController {
 	public Collection<InventoryItem> findAll() {
 
 		List<InventoryItem> items = repository.findAll();
-		logger.info("get items:" + items);
+		logger.info("all:" + items);
+
+		return items;
+	}
+
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	public Collection<InventoryItem> findItem(@RequestParam(value = "item") String itemNumber) {
+
+		Collection<InventoryItem> items = repository.findByItemNumber(itemNumber);
+		logger.info("get:" + items);
 
 		return items;
 	}
@@ -47,28 +56,28 @@ public class InventoryController {
 	public InventoryItem delete(@RequestParam(value = "id") String id) {
 
 		InventoryItem item = repository.findOne(id);
-		logger.info("deleted:" + item);
+		logger.info("delete :" + item);
 
 		repository.delete(item);
 		return item;
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.GET)
-	public Collection<InventoryItem> update(@RequestParam(value = "item") String id,
+	public Collection<InventoryItem> update(@RequestParam(value = "item", required = true) String itemNumber,
 			@RequestParam(value = "location") String location, @RequestParam(value = "total") Integer total,
-			@RequestParam(value = "booked", defaultValue = "0") Integer booked) {
+			@RequestParam(value = "booked") Integer booked) {
 
-		Collection<InventoryItem> items = repository.findByItemNumber(id);
-		logger.info("found:" + items);
+		Collection<InventoryItem> items = repository.findByItemNumber(itemNumber);
+		logger.info("update:" + items);
 
 		if (items.isEmpty())
 			items.add(new InventoryItem());		
 
 		for (InventoryItem item : items) {
-			item.setItemNumber(id);
-			item.setTotalQuantity(total);
-			item.setBookedQuantity(booked);
-			item.setLocation(location);
+			item.setItemNumber(itemNumber);
+			if (total != null) item.setTotalQuantity(total);
+			if (booked != null) item.setBookedQuantity(booked);
+			if (location != null) item.setLocation(location);
 		}
 
 		return repository.save(items);
