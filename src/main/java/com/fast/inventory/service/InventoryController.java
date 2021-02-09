@@ -71,16 +71,25 @@ public class InventoryController {
 		logger.info("update:" + items);
 
 		if (items.isEmpty())
-			items.add(new InventoryItem());		
+			items.add(new InventoryItem());
 
 		for (InventoryItem item : items) {
 			item.setItemNumber(itemNumber);
-			if (total != null) item.setTotalQuantity(total);
-			if (booked != null) item.setBookedQuantity(booked);
-			if (location != null) item.setLocation(location);
+			if (total != null)
+				item.setTotalQuantity(total);
+			if (booked != null)
+				item.setBookedQuantity(booked);
+			if (location != null)
+				item.setLocation(location);
 		}
 
 		return repository.save(items);
+	}
+
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public InventoryItem update(InventoryItem item) {
+		logger.info("update.post:" + item);
+		return repository.save(item);
 	}
 
 	@ExceptionHandler(HttpClientErrorException.class)
