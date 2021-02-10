@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -86,7 +87,7 @@ public class InventoryController {
 	}
 
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	public Collection<InventoryItem> update(InventoryItem item) {
+	public Collection<InventoryItem> update(@RequestBody InventoryItem item) {
 		Collection<InventoryItem> found = repository.findByItemNumber(item.getItemNumber());
 		logger.info("update.post:" + item + "found: " + found);
 
