@@ -88,7 +88,7 @@ public class InventoryController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public Collection<InventoryItem> update(InventoryItem item) {
 		Collection<InventoryItem> found = repository.findByItemNumber(item.getItemNumber());
-		logger.info("update.post:" + found);
+		logger.info("update.post:" + item + "found: " + found);
 
 		if (!found.isEmpty()) {
 			for (InventoryItem inventoryItem : found) {
